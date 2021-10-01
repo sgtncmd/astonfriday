@@ -347,7 +347,7 @@ async def pmPermit(client, message):
             )
         else:
             await message.reply_text(
-                f"{PM_CUSTOM_BLOCK_MSG}"
+                f"{eval(PM_CUSTOM_BLOCK_MSG)}"
             )
         await client.block_user(user_.id)
         if int(message.chat.id) in OLD_MSG:
@@ -357,7 +357,7 @@ async def pmPermit(client, message):
         blockeda = f"**#Blocked_PMPERMIT** \n**User :** `{user_.id}` \n**Reason :** `Spam Limit Reached.`"
         await log.log_msg(client, blockeda)
         return
-    warnings_got = f"{int(PM_WARNS[int(message.chat.id)]) + 1}/{int(pm_s_)}"
+    warnings_got = f"{int(PM_WARNS[int(message.chat.id)]) + 1}/{int(pm_warns)}"
     user_firstname = message.from_user.first_name
     user_mention = message.from_user.mention
     me_f = client.me.first_name
