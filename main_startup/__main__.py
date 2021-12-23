@@ -26,7 +26,7 @@ from main_startup import (
 from main_startup.core.startup_helpers import (
     load_plugin,
     load_xtra_mod,
-    plugin_collecter,
+    plugin_collector,
     run_cmd,
     update_it
 )
@@ -36,6 +36,7 @@ from .config_var import Config
 
 async def mongo_check():
     """Check Mongo Client"""
+    logging.info("[MONGO_CLIENT] - initializing Mongo Client..")
     try:
         await mongo_client.server_info()
     except BaseException as e:
@@ -48,7 +49,7 @@ async def load_unofficial_modules():
     """Load Extra Plugins."""
     logging.info("Loading X-Tra Plugins!")
     await run_cmd(f'bash bot_utils_files/other_helpers/xtra_plugins.sh {Config.XTRA_PLUGINS_REPO}')
-    xtra_mods = plugin_collecter("./xtraplugins/")
+    xtra_mods = plugin_collector("./xtraplugins/")
     for mods in xtra_mods:
         try:
             load_xtra_mod(mods)
@@ -74,6 +75,9 @@ async def fetch_plugins_from_channel():
 
 
 async def run_bot():
+    logging.info("Starting Friday Userbot")
+    logging.info(f"Friday Version: {friday_version}")
+    logging.info("Please wait while Friday is booting up!")
     try:
         await update_it()
     except:
@@ -83,7 +87,7 @@ async def run_bot():
     if bot:
         await bot.start()
         bot.me = await bot.get_me()
-        assistant_mods = plugin_collecter("./assistant/")
+        assistant_mods = plugin_collector("./assistant/")
         for mods in assistant_mods:
             try:
                 load_plugin(mods, assistant=True)
@@ -109,7 +113,7 @@ async def run_bot():
         Friday4.has_a_bot = bool(bot)
     if Config.PLUGIN_CHANNEL:
         await fetch_plugins_from_channel()
-    needed_mods = plugin_collecter("./plugins/")
+    needed_mods = plugin_collector("./plugins/")
     for nm in needed_mods:
         try:
             load_plugin(nm)

@@ -123,3 +123,11 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# userbot
+
+*.session
+*.env
+not4u.json
+secret.json
+eval-result.text

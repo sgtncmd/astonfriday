@@ -7,21 +7,9 @@
 # All rights reserved.
 
 import logging
-import os
 import yaml     
 import pathlib
-from database.localdb import check_lang
-from main_startup.config_var import Config
-from main_startup import (
-    CMD_LIST,
-    XTRA_CMD_LIST,
-    Config,
-    Friday,
-    Friday2,
-    Friday3,
-    Friday4,
-    bot
-)
+from main_startup import Friday
 
 language_string = {}
 
@@ -36,7 +24,7 @@ class Engine:
     def load_language(self):
         all_files = self.get_all_files_in_path(self.path)
         for filepath in all_files:
-            with open(filepath) as f:
+            with open(filepath, encoding='utf-8') as f:
                 data = yaml.safe_load(f)
                 language_to_load = data.get("language")
                 logging.debug(f"Loading : {language_to_load}")
@@ -47,5 +35,5 @@ class Engine:
         lang_ = Friday.selected_lang
         return (
             language_string.get(lang_).get(string)
-            or f"**404_STRING_NOT_FOUND :** `String {string} Not Found in {lang} String 	File. - Please Report It To @FridayChat`"
+            or f"**404_STRING_NOT_FOUND :** `String {string} Not Found in {lang_} String 	File. - Please Report It To @FridayChat`"
         )
